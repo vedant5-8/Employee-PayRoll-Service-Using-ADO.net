@@ -39,14 +39,14 @@ namespace Employee_Payroll_Service
                     "Salary int," +
                     "StartDate date," +
                     "Gender VARCHAR(200)," +
-                    "Phone INT," +
+                    "Phone BIGINT," +
                     "Address VARCHAR(200)," +
                     "Department VARCHAR(100)," +
                     "Deduction INT," +
                     "Taxable_Pay INT," +
                     "Income_Tax INT," +
                     "Net_Pay INT," +
-                    ")";
+                    ");";
                 SqlCommand cmd = new SqlCommand(Query, con);
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("Table Created Successfully.");
