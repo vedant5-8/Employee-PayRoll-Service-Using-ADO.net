@@ -46,7 +46,8 @@ namespace Employee_Payroll_Service
                     "Deduction FLOAT," +
                     "Taxable_Pay FLOAT," +
                     "Income_Tax FLOAT," +
-                    "Net_Pay AS (Basic_Pay - Deduction - Income_Tax));";
+                    "Net_Pay FLOAT);";
+
                 SqlCommand cmd = new SqlCommand(Query, con);
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("Table Created Successfully.");

@@ -20,5 +20,6 @@ namespace Employee_Payroll_Service
         public float Deduction { get; set; }
         public float TaxablePay { get; set; }
         public float IncomeTax { get; set; }
+        public float NetPay { get; set; }
     }
 }
