@@ -427,5 +427,109 @@ namespace Employee_Payroll_Service
 
         }
 
+        public static void AggregateQueries()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                Employee_Payroll_Model model = new Employee_Payroll_Model();
+
+                while (true)
+                {
+                    string Query = String.Empty;
+                    Console.WriteLine("\nSelect an option: ");
+                    Console.WriteLine("1. Sum of all male employees salary");
+                    Console.WriteLine("2. Sum of all female employees salary");
+                    Console.WriteLine("3. Average salary of male employees");
+                    Console.WriteLine("4. Average salary of female employees");
+                    Console.WriteLine("5. Minimum salary of male employees");
+                    Console.WriteLine("6. Minimum salary of female employees");
+                    Console.WriteLine("7. Maximum salary of male employees");
+                    Console.WriteLine("8. Maximum salary of female employees");
+                    Console.WriteLine("9. Count all male employees");
+                    Console.WriteLine("10. Count all female employees");
+                    Console.WriteLine("0. Exit");
+                    Console.Write("==> ");
+                    int option = Convert.ToInt32(Console.ReadLine());
+
+                    switch (option)
+                    {
+                        case 1:
+                            Query = "SELECT SUM(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Male';";
+                            Console.Write("The sum of all salary of male employees: ");
+                            break;
+                        case 2:
+                            Query = "SELECT SUM(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Female';";
+                            Console.Write("The sum of all salary of female employees: ");
+                            break;
+                        case 3:
+                            Query = "SELECT AVG(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Male';";
+                            Console.Write("The average salary of all male employees: ");
+                            break;
+                        case 4:
+                            Query = "SELECT AVG(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Female';";
+                            Console.Write("The average salary of all female employees: ");
+                            break;
+                        case 5:
+                            Query = "SELECT MIN(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Male';";
+                            Console.Write("The minimum salary in male employees: ");
+                            break;
+                        case 6:
+                            Query = "SELECT MIN(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Female';";
+                            Console.Write("The minimum salary in female employees: ");
+                            break;
+                        case 7:
+                            Query = "SELECT MAX(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Male';";
+                            Console.Write("The maximum salary in male employees: ");
+                            break;
+                        case 8:
+                            Query = "SELECT MAX(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Female';";
+                            Console.Write("The maximum salary in female employees: ");
+                            break;
+                        case 9:
+                            Query = "SELECT COUNT(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Male';";
+                            Console.Write("The total male employees: ");
+                            break;
+                        case 10:
+                            Query = "SELECT COUNT(Net_Pay) FROM Employee_Payroll WHERE Gender = 'Female';";
+                            Console.Write("The total female employees: ");
+                            break;
+                        case 0:
+                            Environment.Exit(0);
+                            break;
+                        default:
+                            Console.WriteLine("\nEnter valid option.");
+                            break;
+                    }
+
+                    SqlCommand cmd = new SqlCommand(Query, con);
+
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            Console.WriteLine(sqlDataReader.GetValue(0));
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Records not found.");
+                    }
+
+                    sqlDataReader.Close();
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
     }
 }
