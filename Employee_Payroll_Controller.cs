@@ -1,4 +1,6 @@
 ﻿using System.Data.SqlClient;
+using System.Reflection;
+using System.Reflection.PortableExecutable;
 
 namespace Employee_Payroll_Service
 {
@@ -37,6 +39,7 @@ namespace Employee_Payroll_Service
                     "Emp_Id INT IDENTITY(1,1) PRIMARY KEY," +
                     "Emp_Name VARCHAR(50)," +
                     "Phone_Number BIGINT," +
+                    "Gender VARCHAR(20)," +
                     "Start_Date date," +
                     "Address VARCHAR(200)," +
                     "City VARCHAR(100)," +
