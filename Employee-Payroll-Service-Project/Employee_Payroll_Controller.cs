@@ -383,7 +383,6 @@ namespace Employee_Payroll_Service
                         Console.WriteLine("Income Tax: " + model.IncomeTax);
                         Console.WriteLine("Net Pay: " + model.NetPay);
                         Console.WriteLine();
-
                     }
 
                 }
@@ -402,10 +401,9 @@ namespace Employee_Payroll_Service
             }
         }
 
-        // UC4: Delete a specific data by name
+        // UC7: Delete a specific data by name
         public static void DeleteRecord()
         {
-
             try
             {
                 SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
