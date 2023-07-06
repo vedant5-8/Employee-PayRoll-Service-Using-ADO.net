@@ -9,4 +9,6 @@ using Employee_Payroll_Service;
 
 // Employee_Payroll_Controller.UpdateRecord();
 
-Employee_Payroll_Controller.RetriveAllRecords();
+// Employee_Payroll_Controller.RetriveAllRecords();
+
+Employee_Payroll_Controller.RetriveRecordsByRangeOfDate();
