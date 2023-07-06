@@ -402,5 +402,32 @@ namespace Employee_Payroll_Service
             }
         }
 
+        // UC4: Delete a specific data by name
+        public static void DeleteRecord()
+        {
+
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                Employee_Payroll_Model model = new Employee_Payroll_Model();
+
+                Console.Write("To Edit Records Enter Your Name: ");
+                string name = Console.ReadLine();
+
+                string Query = "DELETE FROM Employee_Payroll WHERE Emp_Name= '" + name + "';";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Record Deleted Successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
     }
 }
