@@ -255,5 +255,75 @@ namespace Employee_Payroll_Service
 
         }
 
+        // UC5: Retrive All Data from Employee_Payroll table.
+        public static void RetriveAllRecords()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                Employee_Payroll_Model model = new Employee_Payroll_Model();
+
+                string Query = "SELECT * FROM Employee_Payroll";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                if (sqlDataReader.HasRows)
+                {
+                    Console.WriteLine("\nRecords Retrived from Database: ");
+
+                    while (sqlDataReader.Read())
+                    {
+                        model.EmpId = sqlDataReader.GetInt32(0);
+                        model.EmpName = sqlDataReader.GetString(1);
+                        model.PhoneNumber = sqlDataReader.GetInt64(2);
+                        model.Gender = sqlDataReader.GetString(3);
+                        model.StartDate = sqlDataReader.GetDateTime(4);
+                        model.Address = sqlDataReader.GetString(5);
+                        model.City = sqlDataReader.GetString(6);
+                        model.State = sqlDataReader.GetString(7);
+                        model.Department = sqlDataReader.GetString(8);
+                        model.BasicPay = sqlDataReader.GetDouble(9);
+                        model.Deduction = sqlDataReader.GetDouble(10);
+                        model.TaxablePay = sqlDataReader.GetDouble(11);
+                        model.IncomeTax = sqlDataReader.GetDouble(12);
+                        model.NetPay = sqlDataReader.GetDouble(13);
+
+                        Console.WriteLine("EmpID: " + model.EmpId);
+                        Console.WriteLine("EmpName: " + model.EmpName);
+                        Console.WriteLine("Phone Number: " + model.PhoneNumber);
+                        Console.WriteLine("Gender: " + model.Gender);
+                        Console.WriteLine("Start Date: " + model.StartDate);
+                        Console.WriteLine("Address: " + model.Address);
+                        Console.WriteLine("City: " + model.City);
+                        Console.WriteLine("State: " + model.State);
+                        Console.WriteLine("Department: " + model.Department);
+                        Console.WriteLine("Basic Pay: " + model.BasicPay);
+                        Console.WriteLine("Deduction: " + model.Deduction);
+                        Console.WriteLine("Taxable Pay: " + model.TaxablePay);
+                        Console.WriteLine("Income Tax: " + model.IncomeTax);
+                        Console.WriteLine("Net Pay: " + model.NetPay);
+                        Console.WriteLine();
+
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Record Not Found in Employee_Payroll Table");
+                }
+
+                sqlDataReader.Close();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
