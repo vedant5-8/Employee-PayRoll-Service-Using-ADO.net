@@ -194,5 +194,56 @@ namespace Employee_Payroll_Service
             }
         }
 
+        // UC5: Retrive All Data from EmployeePayroll table.
+        public static void RetriveAllRecords()
+        {
+            EmployeePayroll model = new EmployeePayroll();
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                string Query = "SELECT * FROM EmployeePayroll";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                if (sqlDataReader.HasRows)
+                {
+                    Console.WriteLine("\nRecords Retrived from Database: ");
+
+                    while (sqlDataReader.Read())
+                    {
+                        model.Emp_ID = sqlDataReader.GetInt32(0);
+                        model.Emp_Name = sqlDataReader.GetString(1);
+                        model.Phone_Number = sqlDataReader.GetString(2);
+                        model.Gender = sqlDataReader.GetString(3);
+                        model.Start_Date = sqlDataReader.GetDateTime(4);
+                        model.Salary = sqlDataReader.GetDecimal(5);
+
+                        Console.WriteLine("Employee ID: " + model.Emp_Name);
+                        Console.WriteLine("Employee Name: " + model.Emp_Name);
+                        Console.WriteLine("Phone Number: " + model.Phone_Number);
+                        Console.WriteLine("Gender: " + model.Gender);
+                        Console.WriteLine("Start Date: " + model.Start_Date);
+                        Console.WriteLine("Salary: " + model.Salary);
+                        Console.WriteLine();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Record Not Found in EmployeePayroll Table");
+                }
+
+                sqlDataReader.Close();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
