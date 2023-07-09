@@ -245,5 +245,68 @@ namespace Employee_Payroll_Service
             }
         }
 
+        // UC6: Retrive Records By Range Of Date
+
+        public static void RetriveRecordsByRangeOfDate()
+        {
+            EmployeePayroll model = new EmployeePayroll();
+
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                Console.WriteLine("Enter Staring Date: ");
+                DateTime StartingDate = Convert.ToDateTime(Console.ReadLine());
+                Console.WriteLine("Enter Ending Date: ");
+                DateTime EndingDate = Convert.ToDateTime(Console.ReadLine());
+
+                string Query = "SELECT * FROM EmployeePayroll WHERE Start_Date BETWEEN @StartingDate AND @EndingDate;";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+
+                cmd.Parameters.AddWithValue("@StartingDate", StartingDate);
+                cmd.Parameters.AddWithValue("@EndingDate", EndingDate);
+
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                if (sqlDataReader.HasRows)
+                {
+                    Console.WriteLine("\nRecords Retrived from Database by date of ranges from {0} to {1}: ", StartingDate, EndingDate);
+
+                    while (sqlDataReader.Read())
+                    {
+                        model.Emp_ID = sqlDataReader.GetInt32(0);
+                        model.Emp_Name = sqlDataReader.GetString(1);
+                        model.Phone_Number = sqlDataReader.GetString(2);
+                        model.Gender = sqlDataReader.GetString(3);
+                        model.Start_Date = sqlDataReader.GetDateTime(4);
+                        model.Salary = sqlDataReader.GetDecimal(5);
+
+                        Console.WriteLine("Employee ID: " + model.Emp_Name);
+                        Console.WriteLine("Employee Name: " + model.Emp_Name);
+                        Console.WriteLine("Phone Number: " + model.Phone_Number);
+                        Console.WriteLine("Gender: " + model.Gender);
+                        Console.WriteLine("Start Date: " + model.Start_Date);
+                        Console.WriteLine("Salary: " + model.Salary);
+                        Console.WriteLine();
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Record Not Found in Employee_Payroll Table");
+                }
+
+                sqlDataReader.Close();
+                con.Close();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
