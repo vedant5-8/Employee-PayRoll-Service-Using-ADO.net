@@ -52,12 +52,12 @@ namespace Employee_Payroll_Service
         // UC3: Insert records in EmployeePayroll table
         public static void InsertRecord()
         {
+            EmployeePayroll model = new EmployeePayroll();
+
             try
             {
                 SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
                 con.Open();
-
-                EmployeePayroll model = new EmployeePayroll();
 
                 Console.WriteLine("Enter Employee Details: \n");
                 Console.Write("Enter Name: ");
@@ -94,6 +94,103 @@ namespace Employee_Payroll_Service
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        // UC4: Update data in EmployeePayroll table
+
+        public static void UpdateRecord()
+        {
+            EmployeePayroll model = new EmployeePayroll();
+
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                Console.Write("To Edit Records Enter Your Name: ");
+                model.Emp_Name = Console.ReadLine();
+
+                while (true)
+                {
+                    string Query = String.Empty;
+                    Console.WriteLine("\nSelect an option: ");
+                    Console.WriteLine("1. Update Name");
+                    Console.WriteLine("2. Update Phone Number");
+                    Console.WriteLine("3. Update Gender");
+                    Console.WriteLine("4. Update Start Date (yyyy-mm-dd)");
+                    Console.WriteLine("5. Update Salary");
+                    Console.WriteLine("0. Exit");
+                    Console.Write("==> ");
+                    int option = Convert.ToInt32(Console.ReadLine());
+
+                    switch (option)
+                    {
+                        case 1:
+                            Console.Write("Enter New Name: ");
+                            model.Emp_Name = Console.ReadLine();
+                            Query = "UPDATE EmployeePayroll SET Emp_Name = @Emp_Name WHERE Emp_Name= @Emp_Name;";
+                            break;
+                        case 2:
+                            Console.Write("Enter New Phone Number: ");
+                            model.Phone_Number = Console.ReadLine();
+                            Query = "UPDATE EmployeePayroll SET Phone_Number = @Phone_Number WHERE Emp_Name= @Emp_Name;";
+                            break;
+                        case 3:
+                            Console.Write("Enter New Gender: ");
+                            model.Gender = Console.ReadLine();
+                            Query = "UPDATE EmployeePayroll SET Gender = @Gender WHERE Emp_Name= @Emp_Name;";
+                            break;
+                        case 4:
+                            Console.Write("Enter New Start Date (yyyy-mm-dd): ");
+                            model.Start_Date = Convert.ToDateTime(Console.ReadLine());
+                            Query = "UPDATE EmployeePayroll SET Start_Date = @Start_Date WHERE Emp_Name= @Emp_Name;";
+                            break;
+                        case 5:
+                            Console.Write("Enter new salary: ");
+                            model.Salary = decimal.Parse(Console.ReadLine());
+                            Query = "UPDATE EmployeePayroll SET Salary = @Salary WHERE Emp_Name= @Emp_Name;";
+                            break;
+                        case 0:
+                            Environment.Exit(0);
+                            break;
+                        default:
+                            Console.WriteLine("\nEnter valid option.");
+                            break;
+                    }
+
+                    SqlCommand cmd = new SqlCommand(Query, con);
+
+                    cmd.Parameters.AddWithValue("@Emp_Name", model.Emp_Name);
+
+                    switch (option)
+                    {
+                        case 1:
+                            cmd.Parameters.AddWithValue("@Emp_Name", model.Emp_Name);
+                            break;
+                        case 2:
+                            cmd.Parameters.AddWithValue("@Phone_Number", model.Phone_Number);
+                            break;
+                        case 3:
+                            cmd.Parameters.AddWithValue("@Gender", model.Gender);
+                            break;
+                        case 4:
+                            cmd.Parameters.AddWithValue("@Start_Date", model.Start_Date);
+                            break;
+                        case 5:
+                            cmd.Parameters.AddWithValue("@Salary", model.Salary);
+                            break;
+                    }
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    Console.WriteLine("{0} rows affected.", rowsAffected);
+                    Console.WriteLine("Record Updated Successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
         }
 
