@@ -49,5 +49,53 @@ namespace Employee_Payroll_Service
             }
         }
 
+        // UC3: Insert records in EmployeePayroll table
+        public static void InsertRecord()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                EmployeePayroll model = new EmployeePayroll();
+
+                Console.WriteLine("Enter Employee Details: \n");
+                Console.Write("Enter Name: ");
+                model.Emp_Name = Console.ReadLine();
+
+                Console.Write("Enter Phone Number: ");
+                model.Phone_Number = Console.ReadLine();
+
+                Console.Write("Enter Gender: ");
+                model.Gender = Console.ReadLine();
+
+                Console.Write("Enter Start Date in format (yyyy-MM-dd):");
+                model.Start_Date = Convert.ToDateTime(Console.ReadLine());
+
+                Console.Write("Enter Salary: ");
+                model.Salary = decimal.Parse(Console.ReadLine());
+
+                string Query = "INSERT INTO EmployeePayroll (Emp_Name, Phone_Number, Gender, Start_Date, Salary) VALUES " +
+                    "(@Emp_Name, @Phone_Number, @Gender, @Start_Date, @Salary)";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+
+                cmd.Parameters.AddWithValue("@Emp_Name", model.Emp_Name);
+                cmd.Parameters.AddWithValue("@Phone_Number", model.Phone_Number);
+                cmd.Parameters.AddWithValue("@Gender", model.Gender);
+                cmd.Parameters.AddWithValue("@Start_Date", model.Start_Date);
+                cmd.Parameters.AddWithValue("@Salary", model.Salary);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                Console.WriteLine("{0} rows are inserted.", rowsAffected);
+                Console.WriteLine("Record Inserted Successfully.");
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
