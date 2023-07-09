@@ -246,7 +246,6 @@ namespace Employee_Payroll_Service
         }
 
         // UC6: Retrive Records By Range Of Date
-
         public static void RetriveRecordsByRangeOfDate()
         {
             EmployeePayroll model = new EmployeePayroll();
@@ -301,6 +300,35 @@ namespace Employee_Payroll_Service
                 sqlDataReader.Close();
                 con.Close();
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        // UC7: Delete a specific data by name
+        public static void DeleteRecord()
+        {
+            EmployeePayroll model = new EmployeePayroll();
+
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                Console.Write("To Edit Records Enter Your Name: ");
+                model.Emp_Name = Console.ReadLine();
+
+                string Query = "DELETE FROM EmployeePayroll WHERE Emp_Name= @Emp_Name;";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+
+                cmd.Parameters.AddWithValue("@Emp_Name", model.Emp_Name);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                Console.WriteLine("{0} row affected.", rowsAffected);
+                Console.WriteLine("Record Deleted Successfully.");
             }
             catch (Exception ex)
             {
