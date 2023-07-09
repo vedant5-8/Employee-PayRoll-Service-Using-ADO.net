@@ -23,5 +23,31 @@ namespace Employee_Payroll_Service
             }
         }
 
+        // UC2: Create Table Employee_Payroll using ADO.net
+        public static void CreateTable()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                string Query = "CREATE TABLE EmployeePayroll(" +
+                    "Emp_ID INT IDENTITY(1,1) PRIMARY KEY," +
+                    "Emp_Name NVARCHAR(255)," +
+                    "Phone_Number NVARCHAR(20)," +
+                    "Gender VARCHAR(10)," +
+                    "Start_Date DATE," +
+                    "Salary DECIMAL(10,2));";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Table Created Successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
