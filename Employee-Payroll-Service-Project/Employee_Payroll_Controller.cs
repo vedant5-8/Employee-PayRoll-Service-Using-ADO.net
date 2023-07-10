@@ -511,5 +511,28 @@ namespace Employee_Payroll_Service
             }
         }
 
+        // UC9: Alter table Employee Payroll and add columns Address, City, Country
+
+        public static void Alter_Table_Payroll()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                string Query = "AlterEmployeePayroll";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Table Altered Successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+
     }
 }
