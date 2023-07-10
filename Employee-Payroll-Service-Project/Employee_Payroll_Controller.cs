@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Reflection;
 
 namespace Employee_Payroll_Service
 {
@@ -113,7 +114,8 @@ namespace Employee_Payroll_Service
 
         public static void UpdateRecord()
         {
-            EmployeePayroll model = new EmployeePayroll();
+            EmployeePayroll empModel = new EmployeePayroll();
+            Department deptModel = new Department();
 
             try
             {
@@ -121,7 +123,7 @@ namespace Employee_Payroll_Service
                 con.Open();
 
                 Console.Write("To Edit Records Enter Your Name: ");
-                model.Emp_Name = Console.ReadLine();
+                empModel.Emp_Name = Console.ReadLine();
 
                 while (true)
                 {
@@ -135,6 +137,7 @@ namespace Employee_Payroll_Service
                     Console.WriteLine("6. Update Address");
                     Console.WriteLine("7. Update City");
                     Console.WriteLine("8. Update Country");
+                    Console.WriteLine("9. Update Department ID");
                     Console.WriteLine("0. Exit");
                     Console.Write("==> ");
                     int option = Convert.ToInt32(Console.ReadLine());
@@ -143,43 +146,49 @@ namespace Employee_Payroll_Service
                     {
                         case 1:
                             Console.Write("Enter New Name: ");
-                            model.Emp_Name = Console.ReadLine();
+                            empModel.Emp_Name = Console.ReadLine();
                             Query = "UPDATE EmployeePayroll SET Emp_Name = @Emp_Name WHERE Emp_Name= @Emp_Name;";
                             break;
                         case 2:
                             Console.Write("Enter New Phone Number: ");
-                            model.Phone_Number = Console.ReadLine();
+                            empModel.Phone_Number = Console.ReadLine();
                             Query = "UPDATE EmployeePayroll SET Phone_Number = @Phone_Number WHERE Emp_Name= @Emp_Name;";
                             break;
                         case 3:
                             Console.Write("Enter New Gender: ");
-                            model.Gender = Console.ReadLine();
+                            empModel.Gender = Console.ReadLine();
                             Query = "UPDATE EmployeePayroll SET Gender = @Gender WHERE Emp_Name= @Emp_Name;";
                             break;
                         case 4:
                             Console.Write("Enter New Start Date (yyyy-mm-dd): ");
-                            model.Start_Date = Convert.ToDateTime(Console.ReadLine());
+                            empModel.Start_Date = Convert.ToDateTime(Console.ReadLine());
                             Query = "UPDATE EmployeePayroll SET Start_Date = @Start_Date WHERE Emp_Name= @Emp_Name;";
                             break;
                         case 5:
                             Console.Write("Enter new salary: ");
-                            model.Salary = decimal.Parse(Console.ReadLine());
+                            empModel.Salary = decimal.Parse(Console.ReadLine());
                             Query = "UPDATE EmployeePayroll SET Salary = @Salary WHERE Emp_Name= @Emp_Name;";
                             break;
                         case 6:
                             Console.Write("Enter new address: ");
-                            model.Address = Console.ReadLine();
+                            empModel.Address = Console.ReadLine();
                             Query = "UPDATE EmployeePayroll SET Address = @Address WHERE Emp_Name= @Emp_Name;";
                             break;
                         case 7:
                             Console.Write("Enter new city: ");
-                            model.City = Console.ReadLine();
+                            empModel.City = Console.ReadLine();
                             Query = "UPDATE EmployeePayroll SET City = @City WHERE Emp_Name= @Emp_Name;";
                             break;
                         case 8:
                             Console.Write("Enter new country: ");
-                            model.Country = Console.ReadLine();
+                            empModel.Country = Console.ReadLine();
                             Query = "UPDATE EmployeePayroll SET Country = @Country WHERE Emp_Name= @Emp_Name;";
+                            break;
+                        case 9:
+                            Console.Write("Enter new Department ID: ");
+                            Console.WriteLine("1=>IT | 2=>HR | 3=>Finance | 4=>Operations | 5=>Research | 6=>Developemnt");
+                            deptModel.Dept_Id = Convert.ToInt32(Console.ReadLine());
+                            Query = "UPDATE EmployeePayroll SET Dept_ID = @Dept_Id WHERE Emp_Name= @Emp_Name;";
                             break;
                         case 0:
                             Environment.Exit(0);
@@ -191,33 +200,36 @@ namespace Employee_Payroll_Service
 
                     SqlCommand cmd = new SqlCommand(Query, con);
 
-                    cmd.Parameters.AddWithValue("@Emp_Name", model.Emp_Name);
+                    cmd.Parameters.AddWithValue("@Emp_Name", empModel.Emp_Name);
 
                     switch (option)
                     {
                         case 1:
-                            cmd.Parameters.AddWithValue("@Emp_Name", model.Emp_Name);
+                            cmd.Parameters.AddWithValue("@Emp_Name", empModel.Emp_Name);
                             break;
                         case 2:
-                            cmd.Parameters.AddWithValue("@Phone_Number", model.Phone_Number);
+                            cmd.Parameters.AddWithValue("@Phone_Number", empModel.Phone_Number);
                             break;
                         case 3:
-                            cmd.Parameters.AddWithValue("@Gender", model.Gender);
+                            cmd.Parameters.AddWithValue("@Gender", empModel.Gender);
                             break;
                         case 4:
-                            cmd.Parameters.AddWithValue("@Start_Date", model.Start_Date);
+                            cmd.Parameters.AddWithValue("@Start_Date", empModel.Start_Date);
                             break;
                         case 5:
-                            cmd.Parameters.AddWithValue("@Salary", model.Salary);
+                            cmd.Parameters.AddWithValue("@Salary", empModel.Salary);
                             break;
                         case 6:
-                            cmd.Parameters.AddWithValue("@Address", model.Address);
+                            cmd.Parameters.AddWithValue("@Address", empModel.Address);
                             break;
                         case 7:
-                            cmd.Parameters.AddWithValue("@City", model.City);
+                            cmd.Parameters.AddWithValue("@City", empModel.City);
                             break;
                         case 8:
-                            cmd.Parameters.AddWithValue("@Country", model.Country);
+                            cmd.Parameters.AddWithValue("@Country", empModel.Country);
+                            break;
+                        case 9:
+                            cmd.Parameters.AddWithValue("@Dept_Id", deptModel.Dept_Id);
                             break;
                     }
 
@@ -263,6 +275,10 @@ namespace Employee_Payroll_Service
                         model.Address = sqlDataReader.GetString(6);
                         model.City = sqlDataReader.GetString(7);
                         model.Country = sqlDataReader.GetString(8);
+                        model.Deduction = sqlDataReader.GetDecimal(9);
+                        model.Taxable_Pay = sqlDataReader.GetDecimal(10);
+                        model.Income_Tax = sqlDataReader.GetDecimal(11);
+                        model.Net_Pay = sqlDataReader.GetDecimal(12);
 
                         Console.WriteLine("Employee ID: " + model.Emp_ID);
                         Console.WriteLine("Employee Name: " + model.Emp_Name);
@@ -273,6 +289,10 @@ namespace Employee_Payroll_Service
                         Console.WriteLine("Address: " + model.Address);
                         Console.WriteLine("City: " + model.City);
                         Console.WriteLine("Country: " + model.Country);
+                        Console.WriteLine("Deduction: " + model.Deduction);
+                        Console.WriteLine("Taxable Pay: " + model.Taxable_Pay);
+                        Console.WriteLine("Income Tax: " + model.Income_Tax);
+                        Console.WriteLine("Net Pay: " + model.Net_Pay);
                         Console.WriteLine();
                     }
                 }
@@ -329,6 +349,10 @@ namespace Employee_Payroll_Service
                         model.Address = sqlDataReader.GetString(6);
                         model.City = sqlDataReader.GetString(7);
                         model.Country = sqlDataReader.GetString(8);
+                        model.Deduction = sqlDataReader.GetDecimal(9);
+                        model.Taxable_Pay = sqlDataReader.GetDecimal(10);
+                        model.Income_Tax = sqlDataReader.GetDecimal(11);
+                        model.Net_Pay = sqlDataReader.GetDecimal(12);
 
                         Console.WriteLine("Employee ID: " + model.Emp_Name);
                         Console.WriteLine("Employee Name: " + model.Emp_Name);
@@ -339,6 +363,10 @@ namespace Employee_Payroll_Service
                         Console.WriteLine("Address: " + model.Address);
                         Console.WriteLine("City: " + model.City);
                         Console.WriteLine("Country: " + model.Country);
+                        Console.WriteLine("Deduction: " + model.Deduction);
+                        Console.WriteLine("Taxable Pay: " + model.Taxable_Pay);
+                        Console.WriteLine("Income Tax: " + model.Income_Tax);
+                        Console.WriteLine("Net Pay: " + model.Net_Pay);
                         Console.WriteLine();
                     }
 
@@ -532,7 +560,116 @@ namespace Employee_Payroll_Service
             }
         }
 
+        // UC11: Create table department
 
+        public static void CreateTableDepartment()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                string Query = "CreateDepartmentTable";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Table Created Successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        
+        public static void AlterEmployeePayrollWithDeptID()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                string Query = "AlterEmployeePayrollWithDeptID";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Table Altered Successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void InsertDepartmentRecord()
+        {
+            Department model = new Department();
+
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                Console.Write("Enter Department Name: ");
+                model.Dept_Name = Console.ReadLine();
+
+                string Query = "INSERT INTO Department (Dept_Name) VALUES (@Dept_Name)";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+
+                cmd.Parameters.AddWithValue("@Dept_Name", model.Dept_Name);
+                
+                int rowsAffected = cmd.ExecuteNonQuery();
+                Console.WriteLine("{0} rows are inserted.", rowsAffected);
+                Console.WriteLine("Record Inserted Successfully.");
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void RetriveAllDepartmentRecords()
+        {
+            Department deptModel = new Department();
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                string Query = "SELECT * FROM Department";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                if (sqlDataReader.HasRows)
+                {
+                    Console.WriteLine("\nRecords Retrived from Database: ");
+
+                    while (sqlDataReader.Read())
+                    {
+                        deptModel.Dept_Id = sqlDataReader.GetInt32(0);
+                        deptModel.Dept_Name = sqlDataReader.GetString(1);
+
+                        Console.WriteLine("Employee ID: " + deptModel.Dept_Id);
+                        Console.WriteLine("Employee Name: " + deptModel.Dept_Name);
+                        Console.WriteLine();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Record Not Found in Department Table");
+                }
+
+                sqlDataReader.Close();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
 
     }
 }

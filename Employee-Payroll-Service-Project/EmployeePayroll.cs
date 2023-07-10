@@ -12,5 +12,9 @@ namespace Employee_Payroll_Service
         public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public decimal Deduction { get; set; }
+        public decimal Taxable_Pay { get; set; }
+        public decimal Income_Tax { get; set; }
+        public decimal Net_Pay { get; set; }
     }
 }

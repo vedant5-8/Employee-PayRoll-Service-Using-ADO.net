@@ -46,3 +46,25 @@ BEGIN
         Income_Tax AS dbo.CalculateIncomeTax(Salary),
         Net_Pay AS dbo.CalculateNetPay(Salary);
 END
+
+CREATE PROCEDURE CreateDepartmentTable
+AS
+BEGIN
+    CREATE TABLE Department (
+        Dept_ID INT IDENTITY(1,1) PRIMARY KEY,
+        Dept_Name NVARCHAR(255) NOT NULL UNIQUE
+    );
+END
+
+CREATE PROCEDURE AlterEmployeePayrollWithDeptID
+AS
+BEGIN
+    ALTER TABLE EmployeePayroll
+    ADD Dept_ID INT;
+
+    ALTER TABLE EmployeePayroll
+    ADD CONSTRAINT FK_Dept_ID FOREIGN KEY (Dept_ID) REFERENCES Department(Dept_ID);
+END
+
+select * from Department;
+
