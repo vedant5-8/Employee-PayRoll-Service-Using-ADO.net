@@ -75,8 +75,17 @@ namespace Employee_Payroll_Service
                 Console.Write("Enter Salary: ");
                 model.Salary = decimal.Parse(Console.ReadLine());
 
-                string Query = "INSERT INTO EmployeePayroll (Emp_Name, Phone_Number, Gender, Start_Date, Salary) VALUES " +
-                    "(@Emp_Name, @Phone_Number, @Gender, @Start_Date, @Salary)";
+                Console.Write("Enter Address: ");
+                model.Address = Console.ReadLine();
+
+                Console.Write("Enter City: ");
+                model.City = Console.ReadLine();
+
+                Console.Write("Enter Country: ");
+                model.Country = Console.ReadLine();
+
+                string Query = "INSERT INTO EmployeePayroll (Emp_Name, Phone_Number, Gender, Start_Date, Salary, Address, City, Country) VALUES " +
+                    "(@Emp_Name, @Phone_Number, @Gender, @Start_Date, @Salary, @Address, @City, @Country)";
 
                 SqlCommand cmd = new SqlCommand(Query, con);
 
@@ -85,6 +94,9 @@ namespace Employee_Payroll_Service
                 cmd.Parameters.AddWithValue("@Gender", model.Gender);
                 cmd.Parameters.AddWithValue("@Start_Date", model.Start_Date);
                 cmd.Parameters.AddWithValue("@Salary", model.Salary);
+                cmd.Parameters.AddWithValue("@Address", model.Address);
+                cmd.Parameters.AddWithValue("@City", model.City);
+                cmd.Parameters.AddWithValue("@Country", model.Country);
 
                 int rowsAffected = cmd.ExecuteNonQuery();
                 Console.WriteLine("{0} rows are inserted.", rowsAffected);
@@ -120,6 +132,9 @@ namespace Employee_Payroll_Service
                     Console.WriteLine("3. Update Gender");
                     Console.WriteLine("4. Update Start Date (yyyy-mm-dd)");
                     Console.WriteLine("5. Update Salary");
+                    Console.WriteLine("6. Update Address");
+                    Console.WriteLine("7. Update City");
+                    Console.WriteLine("8. Update Country");
                     Console.WriteLine("0. Exit");
                     Console.Write("==> ");
                     int option = Convert.ToInt32(Console.ReadLine());
@@ -151,6 +166,21 @@ namespace Employee_Payroll_Service
                             model.Salary = decimal.Parse(Console.ReadLine());
                             Query = "UPDATE EmployeePayroll SET Salary = @Salary WHERE Emp_Name= @Emp_Name;";
                             break;
+                        case 6:
+                            Console.Write("Enter new address: ");
+                            model.Address = Console.ReadLine();
+                            Query = "UPDATE EmployeePayroll SET Address = @Address WHERE Emp_Name= @Emp_Name;";
+                            break;
+                        case 7:
+                            Console.Write("Enter new city: ");
+                            model.City = Console.ReadLine();
+                            Query = "UPDATE EmployeePayroll SET City = @City WHERE Emp_Name= @Emp_Name;";
+                            break;
+                        case 8:
+                            Console.Write("Enter new country: ");
+                            model.Country = Console.ReadLine();
+                            Query = "UPDATE EmployeePayroll SET Country = @Country WHERE Emp_Name= @Emp_Name;";
+                            break;
                         case 0:
                             Environment.Exit(0);
                             break;
@@ -179,6 +209,15 @@ namespace Employee_Payroll_Service
                             break;
                         case 5:
                             cmd.Parameters.AddWithValue("@Salary", model.Salary);
+                            break;
+                        case 6:
+                            cmd.Parameters.AddWithValue("@Address", model.Address);
+                            break;
+                        case 7:
+                            cmd.Parameters.AddWithValue("@City", model.City);
+                            break;
+                        case 8:
+                            cmd.Parameters.AddWithValue("@Country", model.Country);
                             break;
                     }
 
@@ -221,13 +260,19 @@ namespace Employee_Payroll_Service
                         model.Gender = sqlDataReader.GetString(3);
                         model.Start_Date = sqlDataReader.GetDateTime(4);
                         model.Salary = sqlDataReader.GetDecimal(5);
+                        model.Address = sqlDataReader.GetString(6);
+                        model.City = sqlDataReader.GetString(7);
+                        model.Country = sqlDataReader.GetString(8);
 
-                        Console.WriteLine("Employee ID: " + model.Emp_Name);
+                        Console.WriteLine("Employee ID: " + model.Emp_ID);
                         Console.WriteLine("Employee Name: " + model.Emp_Name);
                         Console.WriteLine("Phone Number: " + model.Phone_Number);
                         Console.WriteLine("Gender: " + model.Gender);
                         Console.WriteLine("Start Date: " + model.Start_Date);
                         Console.WriteLine("Salary: " + model.Salary);
+                        Console.WriteLine("Address: " + model.Address);
+                        Console.WriteLine("City: " + model.City);
+                        Console.WriteLine("Country: " + model.Country);
                         Console.WriteLine();
                     }
                 }
@@ -255,7 +300,7 @@ namespace Employee_Payroll_Service
                 SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
                 con.Open();
 
-                Console.WriteLine("Enter Staring Date: ");
+                Console.WriteLine("Enter Starting Date: ");
                 DateTime StartingDate = Convert.ToDateTime(Console.ReadLine());
                 Console.WriteLine("Enter Ending Date: ");
                 DateTime EndingDate = Convert.ToDateTime(Console.ReadLine());
@@ -281,6 +326,9 @@ namespace Employee_Payroll_Service
                         model.Gender = sqlDataReader.GetString(3);
                         model.Start_Date = sqlDataReader.GetDateTime(4);
                         model.Salary = sqlDataReader.GetDecimal(5);
+                        model.Address = sqlDataReader.GetString(6);
+                        model.City = sqlDataReader.GetString(7);
+                        model.Country = sqlDataReader.GetString(8);
 
                         Console.WriteLine("Employee ID: " + model.Emp_Name);
                         Console.WriteLine("Employee Name: " + model.Emp_Name);
@@ -288,6 +336,9 @@ namespace Employee_Payroll_Service
                         Console.WriteLine("Gender: " + model.Gender);
                         Console.WriteLine("Start Date: " + model.Start_Date);
                         Console.WriteLine("Salary: " + model.Salary);
+                        Console.WriteLine("Address: " + model.Address);
+                        Console.WriteLine("City: " + model.City);
+                        Console.WriteLine("Country: " + model.Country);
                         Console.WriteLine();
                     }
 
@@ -317,7 +368,7 @@ namespace Employee_Payroll_Service
                 SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
                 con.Open();
 
-                Console.Write("To Edit Records Enter Your Name: ");
+                Console.Write("To Delete Record Enter Employee Name: ");
                 model.Emp_Name = Console.ReadLine();
 
                 string Query = "DELETE FROM EmployeePayroll WHERE Emp_Name= @Emp_Name;";
@@ -432,6 +483,27 @@ namespace Employee_Payroll_Service
 
                     sqlDataReader.Close();
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        // UC9: Alter table Employee Payroll and add columns Address, City, Country
+
+        public static void Alter_Table_Address_City_Country()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"data source=DESKTOP-4VPJFH9\SQLEXPRESS;initial catalog=EmployeePayrollService;integrated security=true");
+                con.Open();
+
+                string Query = "ALTER TABLE EmployeePayroll ADD Address NVARCHAR(255), City NVARCHAR(255), Country NVARCHAR(255);";
+
+                SqlCommand cmd = new SqlCommand(Query, con);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Table Altered Successfully.");
             }
             catch (Exception ex)
             {

@@ -9,5 +9,8 @@ namespace Employee_Payroll_Service
         public string Gender { get; set; }
         public DateTime Start_Date { get; set; }
         public decimal Salary { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
     }
 }
