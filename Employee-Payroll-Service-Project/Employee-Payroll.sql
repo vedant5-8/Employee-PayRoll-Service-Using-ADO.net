@@ -46,9 +46,3 @@ BEGIN
         Income_Tax AS dbo.CalculateIncomeTax(Salary),
         Net_Pay AS dbo.CalculateNetPay(Salary);
 END
-
-DROP FUNCTION IF EXISTS dbo.CalculateTaxablePay;
-
-DROP FUNCTION IF EXISTS dbo.CalculateIncomeTax;
-
-DROP PROCEDURE IF EXISTS AlterEmployeePayroll;

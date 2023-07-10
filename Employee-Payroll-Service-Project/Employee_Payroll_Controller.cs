@@ -511,7 +511,7 @@ namespace Employee_Payroll_Service
             }
         }
 
-        // UC9: Alter table Employee Payroll and add columns Address, City, Country
+        // UC10: Alter table Employee Payroll and add columns Deduction, Taxable Pay, Income Tax and Net Pay
 
         public static void Alter_Table_Payroll()
         {
